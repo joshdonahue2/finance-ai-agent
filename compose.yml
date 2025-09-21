@@ -1,0 +1,26 @@
+services:
+  finance-app:
+    build: .
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./uploads:/app/uploads
+      - ./initial_pdfs:/app/initial_pdfs
+    env_file:
+      - .env
+    restart: unless-stopped
+    networks:
+      - default
+
+# Optional: If you want to run batch processing as a separate service
+  #batch-processor:
+  #  build: .
+  #  volumes:
+  #    - ./initial_pdfs:/app/initial_pdfs
+  #  env_file:
+  #    - .env
+  #  command: ["python", "src/process_pdf.py", "--batch"]
+  #  depends_on:
+  #    - finance-app
+  #  networks:
+  #    - default
